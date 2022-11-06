@@ -20,10 +20,14 @@ function onInput(evt) {
   }
   fetchArticles(inputValue)
     .then(verifyMarkup)
-    .catch(Notify.failure('Oops, there is no country with that name'))
+    .catch(error => { Notify.failure('Oops, there is no country with that name') })
  refs.countrylistUl.innerHTML = ' ';
  refs.countryInfoDiv.innerHTML = ' ';
 }
+
+
+
+
 
 
 
@@ -44,21 +48,20 @@ function verifyMarkup(name) {
   }
 }
 
+
 function addFirstMarkup(name) {
-  const markup = name
-    .map(({ name, flags }) => {
+  const markup = name.map(({ name, flags }) => {
       return `<li>
       <h2><img width="35" height="25" src="${flags.svg}"</img>
       ${name.official}</h2>`;
-    })
-    .join('');
+  }).join('');
+  
   refs.countrylistUl.innerHTML = markup;
 }
 
 
  function addSecondMarkup(name) {
-  const markup = name
-    .map(({ name, flags, capital, population, languages }) => {
+  const markup = name.map(({ name, flags, capital, population, languages }) => {
       return `<li>
       <h2><img width="35" height="25" src="${flags.svg}"</img>
       ${name.official}</h2>
@@ -69,8 +72,8 @@ function addFirstMarkup(name) {
         .split(',')
         .join(', ')}</p>
     </li> `;
-    })
-    .join('');
+  }).join('');
+   
   refs.countrylistUl.innerHTML = markup;
 }
 
