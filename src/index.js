@@ -19,19 +19,14 @@ function onInput(evt) {
      return;
   }
   fetchArticles(inputValue)
-    .then(verifyMarkup)
+    .then(verifyMarkupByQuantity)
     .catch(error => { Notify.failure('Oops, there is no country with that name') })
  refs.countrylistUl.innerHTML = ' ';
  refs.countryInfoDiv.innerHTML = ' ';
 }
 
 
-
-
-
-
-
-function verifyMarkup(name) {
+function verifyMarkupByQuantity(name) {
   const NumbersOfCountries = name.length;
 
   if (NumbersOfCountries > 2 && NumbersOfCountries < 10) {
@@ -57,7 +52,9 @@ function addFirstMarkup(name) {
   }).join('');
   
   refs.countrylistUl.innerHTML = markup;
+  refs.countrylistUl.style.listStyle = "none";
 }
+
 
 
  function addSecondMarkup(name) {
@@ -67,14 +64,11 @@ function addFirstMarkup(name) {
       ${name.official}</h2>
       <p>Capital: ${capital[0]}</p>
       <p>Population: ${population}</p>
-      <p>Languages: ${Object.values(languages)
-        .toString()
-        .split(',')
-        .join(', ')}</p>
-    </li> `;
+      <p>Languages: ${Object.values(languages)}</p></li>`;
   }).join('');
    
   refs.countrylistUl.innerHTML = markup;
+  refs.countrylistUl.style.listStyle = "none";
 }
 
 
