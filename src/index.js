@@ -4,6 +4,7 @@ import debounce from 'lodash.debounce';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 const DEBOUNCE_DELAY = 300;
+let inputValue = "";
 
  const refs = {
   input: document.querySelector('#search-box'),
@@ -13,22 +14,25 @@ const DEBOUNCE_DELAY = 300;
 
 refs.input.addEventListener('input', debounce(onInput, DEBOUNCE_DELAY));
 
+
 function onInput(evt) {
-  const inputValue = evt.target.value.trim();
-  if (inputValue === ' ') {
-     return;
+  inputValue = evt.target.value;
+  if (inputValue === "") {
+    refs.countrylistUl.innerHTML = '';
+    refs.countryInfoDiv.innerHTML = '';
+    // return;
   }
-  fetchArticles(inputValue)
-    .then(verifyMarkupByQuantity)
-    .catch(error => { Notify.failure('Oops, there is no country with that name') })
- refs.countrylistUl.innerHTML = ' ';
- refs.countryInfoDiv.innerHTML = ' ';
+  else {
+       fetchArticles(inputValue.trim())
+      .then(verifyMarkupByQuantity)
+      .catch(error => { Notify.failure('Oops, there is no country with that name') })
+  }
 }
 
 
 function verifyMarkupByQuantity(name) {
   const NumbersOfCountries = name.length;
-
+ 
   if (NumbersOfCountries > 2 && NumbersOfCountries < 10) {
     addFirstMarkup(name);
     return;
@@ -41,7 +45,7 @@ function verifyMarkupByQuantity(name) {
     Notify.info('Too many matches found. Please enter a more specific name.');
     return;
   }
-}
+   }
 
 
 function addFirstMarkup(name) {
@@ -70,6 +74,9 @@ function addFirstMarkup(name) {
   refs.countrylistUl.innerHTML = markup;
   refs.countrylistUl.style.listStyle = "none";
 }
+
+
+
 
 
 
